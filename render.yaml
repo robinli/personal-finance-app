@@ -1,0 +1,28 @@
+services:
+  # Backend
+  - type: web
+    name: finance-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false # User must provide this value in dashboard
+      - key: ALLOWED_ORIGINS
+        fromService:
+          type: site
+          name: finance-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # Frontend
+  - type: site
+    name: finance-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: finance-backend
+          envVarKey: RENDER_EXTERNAL_URL
