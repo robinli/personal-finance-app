@@ -27,16 +27,16 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
     };
 
     return (
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg transition-colors duration-200">
             <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">{t('list.title')}</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">{t('list.title')}</h3>
             </div>
-            <div className="border-t border-gray-200">
-                <ul role="list" className="divide-y divide-gray-200">
+            <div className="border-t border-gray-200 dark:border-gray-700">
+                <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                     {transactions.map((transaction) => (
                         <li key={transaction.id} className="px-4 py-4 sm:px-6">
                             <div className="flex items-center justify-between">
-                                <div className="text-sm font-medium text-indigo-600 truncate">
+                                <div className="text-sm font-medium text-indigo-600 dark:text-indigo-400 truncate">
                                     {transaction.category}
                                 </div>
                                 <div className="ml-2 flex-shrink-0 flex items-center space-x-2">
@@ -53,7 +53,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                                             </button>
                                             <button
                                                 onClick={handleCancelDelete}
-                                                className="text-gray-700 bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-xs font-medium focus:outline-none"
+                                                className="text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-2 py-1 rounded text-xs font-medium focus:outline-none"
                                             >
                                                 {t('list.cancel')}
                                             </button>
@@ -61,7 +61,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                                     ) : (
                                         <button
                                             onClick={() => handleDeleteClick(transaction.id)}
-                                            className="text-red-600 hover:text-red-900 text-sm font-medium focus:outline-none"
+                                            className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 text-sm font-medium focus:outline-none"
                                         >
                                             {t('list.delete')}
                                         </button>
@@ -70,11 +70,11 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                             </div>
                             <div className="mt-2 sm:flex sm:justify-between">
                                 <div className="sm:flex">
-                                    <p className="flex items-center text-sm text-gray-500">
+                                    <p className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                                         {transaction.description}
                                     </p>
                                 </div>
-                                <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                <div className="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
                                     <p>
                                         ${transaction.amount.toFixed(2)}
                                     </p>
@@ -86,7 +86,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                         </li>
                     ))}
                     {transactions.length === 0 && (
-                        <li className="px-4 py-4 sm:px-6 text-center text-gray-500">
+                        <li className="px-4 py-4 sm:px-6 text-center text-gray-500 dark:text-gray-400">
                             {t('list.no_transactions')}
                         </li>
                     )}

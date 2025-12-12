@@ -3,6 +3,7 @@ import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList';
 import WeeklyReport from './components/WeeklyReport';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import ThemeSwitcher from './components/ThemeSwitcher';
 import { useTranslation } from 'react-i18next';
 import api from './api';
 
@@ -28,11 +29,14 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">{t('app.title')}</h1>
-          <LanguageSwitcher />
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('app.title')}</h1>
+          <div className="flex items-center space-x-4">
+            <ThemeSwitcher />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <WeeklyReport report={report} />

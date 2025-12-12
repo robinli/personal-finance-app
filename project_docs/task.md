@@ -1,0 +1,27 @@
+# Personal Finance App Tasks
+
+- [x] Project Initialization
+    - [x] Create project directory structure
+    - [x] Initialize backend (FastAPI)
+    - [x] Initialize frontend (React + Vite)
+- [x] Backend Development
+    - [x] Setup Database (SQLite for simplicity initially)
+    - [x] Create Models (Transaction: id, type, amount, category, date, description)
+    - [x] Create Schemas (Pydantic)
+    - [x] Implement CRUD operations
+    - [x] Create API Endpoints (GET /transactions, POST /transactions, GET /report/weekly)
+- [x] Frontend Development
+    - [x] Setup Tailwind CSS
+    - [x] Create API Client (Axios)
+    - [x] Create Components (TransactionForm, TransactionList, WeeklyReport)
+    - [x] Implement Dashboard Page
+- [x] Verification
+    - [x] Test Backend API
+    - [x] Test Frontend UI
+    - [x] Verify End-to-End Flow
+- [x] Recent Enhancements
+    - [x] Delete Transaction Functionality (Frontend & Backend integration)
+    - [x] Multi-language Support (i18n: English / Traditional Chinese)
+    - [x] Dark/Light Theme Support
+        - [x] Implement Theme Switcher
+        - [x] Fix Tailwind v4 Dark Mode Configuration
