@@ -1,0 +1,53 @@
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from typing import List
+from fastapi.middleware.cors import CORSMiddleware
+
+from . import crud, models, schemas
+from .database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+# Configure CORS
+origins = [
+    "http://localhost:5173", # Vite default port
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.post("/transactions/", response_model=schemas.Transaction)
+def create_transaction(transaction: schemas.TransactionCreate, db: Session = Depends(get_db)):
+    return crud.create_transaction(db=db, transaction=transaction)
+
+@app.get("/transactions/", response_model=List[schemas.Transaction])
+def read_transactions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    transactions = crud.get_transactions(db, skip=skip, limit=limit)
+    return transactions
+
+@app.delete("/transactions/{transaction_id}")
+def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
+    success = crud.delete_transaction(db, transaction_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+    return {"message": "Transaction deleted successfully"}
+
+@app.get("/report/weekly")
+def read_weekly_report(db: Session = Depends(get_db)):
+    return crud.get_weekly_report(db)
