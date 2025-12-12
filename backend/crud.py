@@ -21,19 +21,24 @@ def delete_transaction(db: Session, transaction_id: int):
         return True
     return False
 
-def get_weekly_report(db: Session):
-    # Simple weekly report: Sum of credits and debits for the last 7 days
-    today = datetime.date.today()
-    week_ago = today - datetime.timedelta(days=7)
+def get_weekly_report(db: Session, start_date: datetime.date = None, end_date: datetime.date = None):
+    # If no dates providing, default to last 7 days including today
+    if not end_date:
+        end_date = datetime.date.today()
+    if not start_date:
+        start_date = end_date - datetime.timedelta(days=6)
     
-    transactions = db.query(models.Transaction).filter(models.Transaction.date >= week_ago).all()
+    transactions = db.query(models.Transaction).filter(
+        models.Transaction.date >= start_date,
+        models.Transaction.date <= end_date
+    ).all()
     
     total_credit = sum(t.amount for t in transactions if t.type == "credit")
     total_debit = sum(t.amount for t in transactions if t.type == "debit")
     
     return {
-        "start_date": week_ago,
-        "end_date": today,
+        "start_date": start_date,
+        "end_date": end_date,
         "total_credit": total_credit,
         "total_debit": total_debit,
         "net_balance": total_credit - total_debit

@@ -13,12 +13,16 @@ function App() {
   const [transactions, setTransactions] = useState([]);
   const [report, setReport] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = async (start_date, end_date) => {
     try {
       const transactionsRes = await api.get('/transactions/');
       setTransactions(transactionsRes.data);
 
-      const reportRes = await api.get('/report/weekly');
+      const params = {};
+      if (start_date) params.start_date = start_date;
+      if (end_date) params.end_date = end_date;
+
+      const reportRes = await api.get('/report/weekly', { params });
       setReport(reportRes.data);
     } catch (error) {
       console.error("Error fetching data", error);
@@ -40,7 +44,7 @@ function App() {
           </div>
         </div>
 
-        <WeeklyReport report={report} />
+        <WeeklyReport report={report} onFilterChange={fetchData} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">

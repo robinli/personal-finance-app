@@ -28,10 +28,11 @@ const resources = {
                 "confirm_delete": "Are you sure you want to delete this category?"
             },
             "report": {
-                "title": "Weekly Report (Last 7 Days)",
+                "title": "Financial Overview",
                 "total_credit": "Total Credit",
                 "total_debit": "Total Debit",
-                "net_balance": "Net Balance"
+                "net_balance": "Net Balance",
+                "filter": "Filter"
             },
             "category": {
                 "title": "Manage Categories",
@@ -68,10 +69,11 @@ const resources = {
                 "confirm_delete": "您確定要刪除此類別嗎？"
             },
             "report": {
-                "title": "每週報告 (過去 7 天)",
+                "title": "財務總覽",
                 "total_credit": "總收入",
                 "total_debit": "總支出",
-                "net_balance": "淨餘額"
+                "net_balance": "淨餘額",
+                "filter": "查詢"
             },
             "category": {
                 "title": "管理類別",

@@ -8,6 +8,7 @@ const CategoryList = () => {
     const [newCategory, setNewCategory] = useState('');
     const [type, setType] = useState('credit');
     const [loading, setLoading] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     const fetchCategories = async () => {
         try {
@@ -39,14 +40,23 @@ const CategoryList = () => {
         }
     };
 
-    const handleDeleteCategory = async (id) => {
-        if (!window.confirm(t('list.confirm_delete'))) return;
+    const handleDeleteClick = (id) => {
+        setDeletingId(id);
+    };
+
+    const handleConfirmDelete = async (id) => {
         try {
             await api.delete(`/categories/${id}`);
             fetchCategories();
+            setDeletingId(null);
         } catch (error) {
             console.error("Error deleting category", error);
+            alert(t('list.delete_error'));
         }
+    };
+
+    const handleCancelDelete = () => {
+        setDeletingId(null);
     };
 
     return (
@@ -88,12 +98,29 @@ const CategoryList = () => {
                                 {category.type === 'credit' ? t('form.credit') : t('form.debit')}
                             </span>
                         </span>
-                        <button
-                            onClick={() => handleDeleteCategory(category.id)}
-                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium"
-                        >
-                            {t('list.delete')}
-                        </button>
+                        {deletingId === category.id ? (
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={() => handleConfirmDelete(category.id)}
+                                    className="text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded text-xs font-medium focus:outline-none"
+                                >
+                                    {t('list.confirm')}
+                                </button>
+                                <button
+                                    onClick={handleCancelDelete}
+                                    className="text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-2 py-1 rounded text-xs font-medium focus:outline-none"
+                                >
+                                    {t('list.cancel')}
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => handleDeleteClick(category.id)}
+                                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium"
+                            >
+                                {t('list.delete')}
+                            </button>
+                        )}
                     </li>
                 ))}
                 {categories.length === 0 && (

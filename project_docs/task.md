@@ -26,3 +26,4 @@
         - [x] Implement Theme Switcher
         - [x] Fix Tailwind v4 Dark Mode Configuration
     - [x] Category Management (Custom Categories & Dropdown)
+    - [x] Weekly Report Date Filter (Start Date & End Date)

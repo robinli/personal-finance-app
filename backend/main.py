@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
+from datetime import date
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import crud, models, schemas
@@ -49,8 +50,12 @@ def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
     return {"message": "Transaction deleted successfully"}
 
 @app.get("/report/weekly")
-def read_weekly_report(db: Session = Depends(get_db)):
-    return crud.get_weekly_report(db)
+def read_weekly_report(
+    start_date: Optional[date] = Query(None),
+    end_date: Optional[date] = Query(None),
+    db: Session = Depends(get_db)
+):
+    return crud.get_weekly_report(db, start_date=start_date, end_date=end_date)
 
 @app.post("/categories/", response_model=schemas.Category)
 def create_category(category: schemas.CategoryCreate, db: Session = Depends(get_db)):
