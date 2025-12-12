@@ -11,11 +11,20 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+import os
+
 # Configure CORS
 origins = [
     "http://localhost:5173", # Vite default port
     "http://localhost:3000",
 ]
+
+if os.getenv("ALLOWED_ORIGINS"):
+    origins.extend(os.getenv("ALLOWED_ORIGINS").split(","))
+    
+# Allow all origins for simplicity in this demo deployment if env var not set or set to *
+if not os.getenv("ALLOWED_ORIGINS") or os.getenv("ALLOWED_ORIGINS") == "*":
+     origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
