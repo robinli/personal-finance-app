@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-import models, schemas
+from . import models, schemas
 import datetime
 
 def get_transactions(db: Session, skip: int = 0, limit: int = 100):

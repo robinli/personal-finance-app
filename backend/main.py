@@ -4,8 +4,8 @@ from typing import List, Optional
 from datetime import date
 from fastapi.middleware.cors import CORSMiddleware
 
-import crud, models, schemas
-from database import SessionLocal, engine
+from . import crud, models, schemas
+from .database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
