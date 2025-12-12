@@ -4,6 +4,12 @@ A simple and efficient personal finance tracker to manage your daily income and 
 
 ### [Live Demo](https://finance-frontend-xl1u.onrender.com)
 
+screenshots:
+
+![English App Screenshot](project_docs/screenshot_en.png)
+
+![Traditional Chinese App Screenshot](project_docs/screenshot_zh.png)
+
 ## Features
 
 - **Transaction Management**: Add, view, and delete income (credit) and expense (debit) transactions.
