@@ -10,3 +10,10 @@ class Transaction(Base):
     category = Column(String)
     date = Column(Date)
     description = Column(String)
+
+class Category(Base):
+    __tablename__ = "categories"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True)
+    type = Column(String) # "credit" or "debit" (optional, to filter categories by transaction type)

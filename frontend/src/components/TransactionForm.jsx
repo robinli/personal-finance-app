@@ -1,14 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useTranslation } from 'react-i18next';
-
 const TransactionForm = ({ onTransactionAdded }) => {
     const { t } = useTranslation();
     const [type, setType] = useState('credit');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
+    const [categories, setCategories] = useState([]);
     const [description, setDescription] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await api.get('/categories/');
+                setCategories(res.data);
+            } catch (error) {
+                console.error("Error fetching categories", error);
+            }
+        };
+        fetchCategories();
+    }, []);
+
+    // Effect to reset category when type changes or categories update
+    useEffect(() => {
+        const filteredCategories = categories.filter(c => c.type === type);
+        if (filteredCategories.length > 0) {
+            setCategory(filteredCategories[0].name);
+        } else {
+            setCategory('');
+        }
+    }, [type, categories]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -58,13 +80,17 @@ const TransactionForm = ({ onTransactionAdded }) => {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('form.category')}</label>
-                        <input
-                            type="text"
+                        <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                             required
                             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 dark:text-white"
-                        />
+                        >
+                            <option value="" disabled>{t('category.select_placeholder')}</option>
+                            {categories.filter(c => c.type === type).map((cat) => (
+                                <option key={cat.id} value={cat.name}>{cat.name}</option>
+                            ))}
+                        </select>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('form.date')}</label>

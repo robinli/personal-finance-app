@@ -17,3 +17,16 @@ class Transaction(TransactionBase):
 
     class Config:
         orm_mode = True
+
+class CategoryBase(BaseModel):
+    name: str
+    type: str # "credit" or "debit"
+
+class CategoryCreate(CategoryBase):
+    pass
+
+class Category(CategoryBase):
+    id: int
+
+    class Config:
+        orm_mode = True

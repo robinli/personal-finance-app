@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList';
 import WeeklyReport from './components/WeeklyReport';
+import CategoryList from './components/CategoryList';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import { useTranslation } from 'react-i18next';
@@ -44,6 +45,7 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <TransactionForm onTransactionAdded={fetchData} />
+            <CategoryList />
           </div>
           <div className="lg:col-span-2">
             <TransactionList transactions={transactions} onTransactionDeleted={fetchData} />

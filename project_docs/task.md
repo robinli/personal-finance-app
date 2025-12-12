@@ -25,3 +25,4 @@
     - [x] Dark/Light Theme Support
         - [x] Implement Theme Switcher
         - [x] Fix Tailwind v4 Dark Mode Configuration
+    - [x] Category Management (Custom Categories & Dropdown)

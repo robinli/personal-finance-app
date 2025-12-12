@@ -51,3 +51,18 @@ def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
 @app.get("/report/weekly")
 def read_weekly_report(db: Session = Depends(get_db)):
     return crud.get_weekly_report(db)
+
+@app.post("/categories/", response_model=schemas.Category)
+def create_category(category: schemas.CategoryCreate, db: Session = Depends(get_db)):
+    return crud.create_category(db=db, category=category)
+
+@app.get("/categories/", response_model=List[schemas.Category])
+def read_categories(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return crud.get_categories(db, skip=skip, limit=limit)
+
+@app.delete("/categories/{category_id}")
+def delete_category(category_id: int, db: Session = Depends(get_db)):
+    success = crud.delete_category(db, category_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return {"message": "Category deleted successfully"}
