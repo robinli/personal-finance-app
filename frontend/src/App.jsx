@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList';
 import WeeklyReport from './components/WeeklyReport';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 import api from './api';
 
 function App() {
+  const { t } = useTranslation();
   const [transactions, setTransactions] = useState([]);
   const [report, setReport] = useState(null);
 
@@ -27,7 +30,10 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Personal Finance Tracker</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">{t('app.title')}</h1>
+          <LanguageSwitcher />
+        </div>
 
         <WeeklyReport report={report} />
 

@@ -1,7 +1,9 @@
 import React from 'react';
 import api from '../api';
+import { useTranslation } from 'react-i18next';
 
 const TransactionList = ({ transactions, onTransactionDeleted }) => {
+    const { t } = useTranslation();
 
     const [deletingId, setDeletingId] = React.useState(null);
 
@@ -16,7 +18,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
             setDeletingId(null);
         } catch (error) {
             console.error("Error deleting transaction", error);
-            alert("Failed to delete transaction");
+            alert(t('list.delete_error'));
         }
     };
 
@@ -27,7 +29,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
     return (
         <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Recent Transactions</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">{t('list.title')}</h3>
             </div>
             <div className="border-t border-gray-200">
                 <ul role="list" className="divide-y divide-gray-200">
@@ -39,7 +41,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                                 </div>
                                 <div className="ml-2 flex-shrink-0 flex items-center space-x-2">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${transaction.type === 'credit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                                        {transaction.type}
+                                        {transaction.type === 'credit' ? t('form.credit') : t('form.debit')}
                                     </span>
                                     {deletingId === transaction.id ? (
                                         <div className="flex space-x-2">
@@ -47,13 +49,13 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                                                 onClick={() => handleConfirmDelete(transaction.id)}
                                                 className="text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded text-xs font-medium focus:outline-none"
                                             >
-                                                Confirm
+                                                {t('list.confirm')}
                                             </button>
                                             <button
                                                 onClick={handleCancelDelete}
                                                 className="text-gray-700 bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-xs font-medium focus:outline-none"
                                             >
-                                                Cancel
+                                                {t('list.cancel')}
                                             </button>
                                         </div>
                                     ) : (
@@ -61,7 +63,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                                             onClick={() => handleDeleteClick(transaction.id)}
                                             className="text-red-600 hover:text-red-900 text-sm font-medium focus:outline-none"
                                         >
-                                            Delete
+                                            {t('list.delete')}
                                         </button>
                                     )}
                                 </div>
@@ -85,7 +87,7 @@ const TransactionList = ({ transactions, onTransactionDeleted }) => {
                     ))}
                     {transactions.length === 0 && (
                         <li className="px-4 py-4 sm:px-6 text-center text-gray-500">
-                            No transactions found.
+                            {t('list.no_transactions')}
                         </li>
                     )}
                 </ul>
